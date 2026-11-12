@@ -27,7 +27,27 @@ code_list = []
 entered_list = []
 top_arrow_list =[]
 bottom_arrow_list = []
-number_writer_list =[]
+
+number_writer0 = trtl.Turtle()
+number_writer0.hideturtle()
+number_writer0.penup()
+number_writer0.goto(-200,-35)
+number_writer1 = trtl.Turtle()
+number_writer1.hideturtle()
+number_writer1.penup()
+number_writer1.goto(-100,-35)
+number_writer2 = trtl.Turtle()
+number_writer2.hideturtle()
+number_writer2.penup()
+number_writer2.goto(0,-35)
+number_writer3 = trtl.Turtle()
+number_writer3.hideturtle()
+number_writer3.penup()
+number_writer3.goto(100,-35)
+number_writer4 = trtl.Turtle()
+number_writer4.hideturtle()
+number_writer4.penup()
+number_writer4.goto(200,-35)
 
 #---Functions---#
 def make_code(x,y):
@@ -53,16 +73,15 @@ def create_code_enter():
   wn.tracer(0)
   start_x = -200
   for number in code_list:
-    number_writer = trtl.Turtle(shape="square")
-    number_writer.shapesize(4)
-    number_writer.speed(0)
-    number_writer.fillcolor("white")
-    number_writer.penup()
-    number_writer.goto(start_x, 0)
-    number_writer.stamp()
-    number_writer.hideturtle()
-    number_writer.goto(start_x, -35)
-    number_writer.write("0",align="center",font=("Arial", 50, "bold"))
+    square_writer = trtl.Turtle(shape="square")
+    square_writer.shapesize(4)
+    square_writer.speed(0)
+    square_writer.fillcolor("white")
+    square_writer.penup()
+    square_writer.goto(start_x, 0)
+    square_writer.stamp()
+    square_writer.hideturtle()
+    square_writer.goto(start_x, -35)
     top_arrow = trtl.Turtle(shape="arrow")
     bottom_arrow = trtl.Turtle(shape="arrow")
     top_arrow.speed(0)
@@ -75,72 +94,108 @@ def create_code_enter():
     bottom_arrow.penup()
     bottom_arrow.setheading(-90)
     bottom_arrow.goto(start_x, -50)
+    bottom_arrow.onclick(partial(bottom_counter,bottom_arrow))
     bottom_arrow_list.append(bottom_arrow)
     start_x += 100
+  
   entered_list = [0,0,0,0,0]
   wn.tracer(1)
 
-#--Counter go up thing--#
-def top_counter(x,y, top_arrow):
-  index = top_arrow_list.index(top_arrow)
+def bottom_counter(bottom_arrow, x, y):
+  writer.clear()
+  index = bottom_arrow_list.index(bottom_arrow)
+  print(index)
   if index == 0:
-    writer.goto(top_arrow.xcor(),-35)
     input = entered_list.pop(index)
-    writer.write(str(input),align="center",font=("Arial", 50, "bold"))
+    input -=1
+    if input < 0:
+      input = 9
+    entered_list.insert(index,input)
+    number_writer0.clear()
+    number_writer0.write(str(input), align="center", font=("arial", 50, "normal"))
   elif index == 1:
-    writer.goto(top_arrow.xcor(),-35)
     input = entered_list.pop(index)
-    writer.write(str(input),align="center",font=("Arial", 50, "bold"))
+    input -=1
+    if input < 0:
+      input = 9
+    entered_list.insert(index,input)
+    number_writer1.clear()
+    number_writer1.write(str(input), align="center", font=("arial", 50, "normal"))
   elif index == 2:
-    writer.goto(top_arrow.xcor(),-35)
     input = entered_list.pop(index)
-    writer.write(str(input),align="center",font=("Arial", 50, "bold"))
+    input -=1
+    if input < 0:
+      input = 9
+    entered_list.insert(index,input)
+    number_writer2.clear()
+    number_writer2.write(str(input), align="center", font=("arial", 50, "normal"))
   elif index == 3:
-    writer.goto(top_arrow.xcor(),-35)
     input = entered_list.pop(index)
-    writer.write(str(input),align="center",font=("Arial", 50, "bold"))
+    input -=1
+    if input < 0:
+      input = 9
+    entered_list.insert(index,input)
+    number_writer3.clear()
+    number_writer3.write(str(input), align="center", font=("arial", 50, "normal"))
   elif index == 4:
-    writer.goto(top_arrow.xcor(),-35)
     input = entered_list.pop(index)
-    writer.write(str(input),align="center",font=("Arial", 50, "bold"))
+    input -=1
+    if input < 0:
+      input = 9
+    entered_list.insert(index,input)
+    number_writer4.clear()
+    number_writer4.write(str(input), align="center", font=("arial", 50, "normal"))
 
 def top_counter(top_arrow,x,y):
   index = top_arrow_list.index(top_arrow)
   if index == 0:
     print("0")
-    writer.goto(top_arrow.xcor(),-35)
+    print(entered_list)
     input = entered_list.pop(index)
     input +=1
-    writer.write(str(input),align="center",font=("Arial", 50, "bold"))
-    entered_list.insert(input,index)
+    if input > 9:
+          input = 0
+    entered_list.insert(index,input)
+    number_writer0.clear()
+    number_writer0.write(str(input), align="center", font=("arial", 50, "normal"))
   elif index == 1:
     print("1")
-    writer.goto(top_arrow.xcor(),-35)
     input = entered_list.pop(index)
-    input +=1 
-    writer.write(str(input),align="center",font=("Arial", 50, "bold"))
-    entered_list.insert(input,index)
+    input +=1
+    if input > 9:
+          input = 0
+    entered_list.insert(index,input)
+    number_writer1.clear()
+    number_writer1.write(str(input), align="center", font=("arial", 50, "normal"))
   elif index == 2:
     print("2")
-    writer.goto(top_arrow.xcor(),-35)
     input = entered_list.pop(index)
     input +=1
-    writer.write(str(input),align="center",font=("Arial", 50, "bold"))
-    entered_list.insert(input,index)
+    if input > 9:
+          input = 0
+    entered_list.insert(index,input)
+    number_writer2.clear()
+    number_writer2.write(str(input), align="center", font=("arial", 50, "normal"))
   elif index == 3:
     print("3")
-    writer.goto(top_arrow.xcor(),-35)
     input = entered_list.pop(index)
     input +=1
-    writer.write(str(input),align="center",font=("Arial", 50, "bold"))
-    entered_list.insert(input,index)
+    if input > 9:
+          input = 0
+    entered_list.insert(index,input)
+    number_writer3.clear()
+    number_writer3.write(str(input), align="center", font=("arial", 50, "normal"))
   elif index == 4:
     print("4")
-    writer.goto(top_arrow.xcor(),-35)
     input = entered_list.pop(index)
     input +=1
-    writer.write(str(input),align="center",font=("Arial", 50, "bold"))
-    entered_list.insert(input,index)
+    if input > 9:
+      input = 0
+    entered_list.insert(index,input)
+    number_writer4.clear()
+    number_writer4.write(str(input), align="center", font=("arial", 50, "normal"))
+  print(entered_list)
+    
     
 #Drawing the How to play box
 writer = trtl.Turtle()
