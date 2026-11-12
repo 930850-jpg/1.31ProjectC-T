@@ -27,29 +27,51 @@ code_list = []
 entered_list = []
 top_arrow_list =[]
 bottom_arrow_list = []
+checking = 0
 
-number_writer0 = trtl.Turtle()
-number_writer0.hideturtle()
-number_writer0.penup()
-number_writer0.goto(-200,-35)
-number_writer1 = trtl.Turtle()
-number_writer1.hideturtle()
-number_writer1.penup()
-number_writer1.goto(-100,-35)
-number_writer2 = trtl.Turtle()
-number_writer2.hideturtle()
-number_writer2.penup()
-number_writer2.goto(0,-35)
-number_writer3 = trtl.Turtle()
-number_writer3.hideturtle()
-number_writer3.penup()
-number_writer3.goto(100,-35)
-number_writer4 = trtl.Turtle()
-number_writer4.hideturtle()
-number_writer4.penup()
-number_writer4.goto(200,-35)
+def number_writers():
+  global number_writer0, number_writer1, number_writer2, number_writer3, number_writer4
+  number_writer0 = trtl.Turtle()
+  number_writer0.hideturtle()
+  number_writer0.penup()
+  number_writer0.goto(-200,-35)
+  number_writer1 = trtl.Turtle()
+  number_writer1.hideturtle()
+  number_writer1.penup()
+  number_writer1.goto(-100,-35)
+  number_writer2 = trtl.Turtle()
+  number_writer2.hideturtle()
+  number_writer2.penup()
+  number_writer2.goto(0,-35)
+  number_writer3 = trtl.Turtle()
+  number_writer3.hideturtle()
+  number_writer3.penup()
+  number_writer3.goto(100,-35)
+  number_writer4 = trtl.Turtle()
+  number_writer4.hideturtle()
+  number_writer4.penup()
+  number_writer4.goto(200,-35)
 
 #---Functions---#
+#Start Button
+def build_button():
+  global start
+  start = trtl.Turtle()
+  start.hideturtle()
+  start.speed(0)
+  start.penup()
+  start.goto(-100,-120)
+  start.pendown()
+  start.fillcolor("green")
+  start.begin_fill()
+  start.goto(100,-120)
+  start.goto(100, -170)
+  start.goto(-100, -170)
+  start.end_fill()
+  start.penup()
+  start.goto(0, -170)
+
+
 def make_code(x,y):
   if -100 <= x <= 100 and -170 <= y <= -120:
     wn.onclick(None)
@@ -97,14 +119,46 @@ def create_code_enter():
     bottom_arrow.onclick(partial(bottom_counter,bottom_arrow))
     bottom_arrow_list.append(bottom_arrow)
     start_x += 100
-  
+  build_button()
+  start.write("Enter", align="center",font=("Arial", 35, "bold"))
+  wn.onclick(check)
+  number_writers()
+  number_writer0.write(0, align="center", font=("arial", 50, "normal"))
+  number_writer1.write(0, align="center", font=("arial", 50, "normal"))
+  number_writer2.write(0, align="center", font=("arial", 50, "normal"))
+  number_writer3.write(0, align="center", font=("arial", 50, "normal"))
+  number_writer4.write(0, align="center", font=("arial", 50, "normal"))
   entered_list = [0,0,0,0,0]
   wn.tracer(1)
+
+def check(x,y):
+  global entered_list, code_list, checking
+  if -100 <= x <= 100 and -170 <= y <= -120:
+    wn.onclick(None)
+    wn.clearscreen()
+    i=0
+    while i <= 4:
+      if entered_list[i] == code_list[i]:
+        checking += 2
+      elif entered_list[i] in code_list:
+          checking +=1
+      i += 1
+    message_turtle = trtl.Turtle()
+    message_turtle.hideturtle()
+    if checking < 5:
+      message_turtle.write(rand.choice(Message0_4list)+"\n"+ "The Code Was: "+ str(code_list)+ "\n"+"You Entered: "+ str(entered_list)+ "\n" + "Would you like to go again?", align="center", font=("arial", 50, "bold"))
+    if checking > 4 and checking != 10:
+      message_turtle.write(rand.choice(Message5_9list)+"\n"+ "The Code Was: "+ str(code_list)+ "\n"+"You Entered: "+ str(entered_list)+ "\n" + "Would you like to go again?", align="center", font=("arial", 50, "bold"))
+    if checking == 10:
+      message_turtle.write(rand.choice(Message10list)+"\n"+ "The Code Was: "+ str(code_list)+ "\n"+"You Entered: "+ str(entered_list)+ "\n" + "Would you like to go again?", align="center", font=("arial", 50, "bold"))
+    build_button()
+    start.write("Again", align="center",font=("Arial", 35, "bold"))
+    wn.onclick(make_code)
 
 def bottom_counter(bottom_arrow, x, y):
   writer.clear()
   index = bottom_arrow_list.index(bottom_arrow)
-  print(index)
+  #print(index)
   if index == 0:
     input = entered_list.pop(index)
     input -=1
@@ -149,8 +203,8 @@ def bottom_counter(bottom_arrow, x, y):
 def top_counter(top_arrow,x,y):
   index = top_arrow_list.index(top_arrow)
   if index == 0:
-    print("0")
-    print(entered_list)
+    #print("0")
+    #print(entered_list)
     input = entered_list.pop(index)
     input +=1
     if input > 9:
@@ -159,7 +213,7 @@ def top_counter(top_arrow,x,y):
     number_writer0.clear()
     number_writer0.write(str(input), align="center", font=("arial", 50, "normal"))
   elif index == 1:
-    print("1")
+    #print("1")
     input = entered_list.pop(index)
     input +=1
     if input > 9:
@@ -168,7 +222,7 @@ def top_counter(top_arrow,x,y):
     number_writer1.clear()
     number_writer1.write(str(input), align="center", font=("arial", 50, "normal"))
   elif index == 2:
-    print("2")
+    #print("2")
     input = entered_list.pop(index)
     input +=1
     if input > 9:
@@ -177,7 +231,7 @@ def top_counter(top_arrow,x,y):
     number_writer2.clear()
     number_writer2.write(str(input), align="center", font=("arial", 50, "normal"))
   elif index == 3:
-    print("3")
+    #print("3")
     input = entered_list.pop(index)
     input +=1
     if input > 9:
@@ -186,7 +240,7 @@ def top_counter(top_arrow,x,y):
     number_writer3.clear()
     number_writer3.write(str(input), align="center", font=("arial", 50, "normal"))
   elif index == 4:
-    print("4")
+    #print("4")
     input = entered_list.pop(index)
     input +=1
     if input > 9:
@@ -194,7 +248,7 @@ def top_counter(top_arrow,x,y):
     entered_list.insert(index,input)
     number_writer4.clear()
     number_writer4.write(str(input), align="center", font=("arial", 50, "normal"))
-  print(entered_list)
+  #print(entered_list)
     
     
 #Drawing the How to play box
@@ -219,22 +273,7 @@ writer.goto(0,-50)
 writer.write("A string of 5 numbers will appear on the screen for 3 seconds. \n after those 3 seconds, it will disappear for 1 second. \n then 5 boxes will appear with arrows above and below them. \n these boxes are used to enter numbers, and the arrows change the number. \n Your goal is to enter the same string that appeared. \n tap the button below to begin.", align="center", font=("Arial", 25, "normal"))
 writer.hideturtle()
 
-
-#Start Button
-start = trtl.Turtle()
-start.hideturtle()
-start.speed(0)
-start.penup()
-start.goto(-100,-120)
-start.pendown()
-start.fillcolor("green")
-start.begin_fill()
-start.goto(100,-120)
-start.goto(100, -170)
-start.goto(-100, -170)
-start.end_fill()
-start.penup()
-start.goto(0, -170)
+build_button()
 start.write("Begin", align="center",font=("Arial", 35, "bold"))
 wn.onclick(make_code)
 
