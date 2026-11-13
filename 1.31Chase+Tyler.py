@@ -14,7 +14,7 @@ Message0_4list = ["Every round is a new opportunity. Keep going!",
 "A little progress goes a long way. Keep it up!"]
 Message5_9list = ["Very nice work! You're making great progress!",
 "Excellent effort! You're getting closer!",
-"Well done! Keep up the good work!",
+"Good Try! Keep up the good work!",
 "You're doing wonderfully! Almost there!",
 "Great job! You're improving with every round!"]
 Message10list = ["Perfect match! Outstanding work!",
@@ -76,8 +76,10 @@ def make_code(x,y):
   if -100 <= x <= 100 and -170 <= y <= -120:
     wn.onclick(None)
     global number_list, code_list
+    wn.clear()
     writer.clear()
     start.clear()
+    code_list = []
     for number in range(5):
       number = rand.choice(number_list)
       number_list.remove(number)
@@ -132,25 +134,36 @@ def create_code_enter():
   wn.tracer(1)
 
 def check(x,y):
-  global entered_list, code_list, checking
+  global entered_list, code_list, checking, top_arrow_list, bottom_arrow_list
   if -100 <= x <= 100 and -170 <= y <= -120:
+    checking_list = entered_list
+    bufferlist = entered_list
     wn.onclick(None)
     wn.clearscreen()
+    top_arrow_list = []
+    bottom_arrow_list = []
     i=0
     while i <= 4:
-      if entered_list[i] == code_list[i]:
+      print(entered_list)
+      if checking_list[i] == code_list[i]:
         checking += 2
-      elif entered_list[i] in code_list:
+      elif checking_list[i] in code_list:
+        checking2 = checking_list.pop(i)
+        if checking2 not in checking_list:
           checking +=1
+        checking_list.insert(i, "x")
       i += 1
+    print(checking)
+    
     message_turtle = trtl.Turtle()
     message_turtle.hideturtle()
     if checking < 5:
-      message_turtle.write(rand.choice(Message0_4list)+"\n"+ "The Code Was: "+ str(code_list)+ "\n"+"You Entered: "+ str(entered_list)+ "\n" + "Would you like to go again?", align="center", font=("arial", 50, "bold"))
+      message_turtle.write(rand.choice(Message0_4list)+"\n"+ "The Code Was: "+ str(code_list)+ "\n"+"You Entered: "+ str(bufferlist)+ "\n" + "Would you like to go again?", align="center", font=("arial", 50, "bold"))
     if checking > 4 and checking != 10:
-      message_turtle.write(rand.choice(Message5_9list)+"\n"+ "The Code Was: "+ str(code_list)+ "\n"+"You Entered: "+ str(entered_list)+ "\n" + "Would you like to go again?", align="center", font=("arial", 50, "bold"))
+      message_turtle.write(rand.choice(Message5_9list)+"\n"+ "The Code Was: "+ str(code_list)+ "\n"+"You Entered: "+ str(bufferlist)+ "\n" + "Would you like to go again?", align="center", font=("arial", 50, "bold"))
     if checking == 10:
-      message_turtle.write(rand.choice(Message10list)+"\n"+ "The Code Was: "+ str(code_list)+ "\n"+"You Entered: "+ str(entered_list)+ "\n" + "Would you like to go again?", align="center", font=("arial", 50, "bold"))
+      message_turtle.write(rand.choice(Message10list)+"\n"+ "The Code Was: "+ str(code_list)+ "\n"+"You Entered: "+ str(bufferlist)+ "\n" + "Would you like to go again?", align="center", font=("arial", 50, "bold"))
+    checking = 0
     build_button()
     start.write("Again", align="center",font=("Arial", 35, "bold"))
     wn.onclick(make_code)
